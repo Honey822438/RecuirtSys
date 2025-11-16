@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recruitment Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#4A5568', // slate-600
+                '50': '#F7FAFC',
+                '100': '#EDF2F7',
+                '200': '#E2E8F0',
+                '300': '#CBD5E0',
+                '400': '#A0AEC0',
+                '500': '#718096',
+                '600': '#4A5568',
+                '700': '#2D3748',
+                '800': '#1A202C',
+                '900': '#171923',
+              },
+              secondary: '#2D3748',
+              accent: '#38B2AC', // teal-400
+            },
+          },
+        },
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

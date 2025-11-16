@@ -1,0 +1,128 @@
+import { Candidate, DocumentStatus, MedicalStatus, WorkflowStatus, Employee, DemandLetter, CustomerType, CollectionMethod, DiplomaVerificationStatus } from './types';
+import type { Role } from './App';
+
+export const MOCK_CANDIDATES: Candidate[] = [
+  {
+    id: 'cand_001',
+    name: 'Aisha Khan',
+    email: 'aisha.khan@example.com',
+    avatarUrl: 'https://picsum.photos/seed/aisha/200',
+    progress: 25,
+    payment: { agreed: 5000, additional: 500, received: 1000 },
+    medicalStatus: MedicalStatus.Fit,
+    guardian: { relation: 'Father', cnic: '12345-6789012-3', contactNumber: '+92 300 1234567' },
+    bankAccount: 'PK36 SCBL 0000 0012 3456 7890',
+    documents: [
+      { id: 'doc1', name: 'Passport', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Courier },
+      { id: 'doc2', name: 'Diploma', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Direct, verificationStatus: DiplomaVerificationStatus.ReceivedFromBoard },
+      { id: 'doc3', name: 'Dataflow Report', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+    ],
+    videos: [],
+    workflowStatus: WorkflowStatus.AwaitingDataflow,
+    hiringOfficerId: 'officer_01',
+    customerType: CustomerType.Fresh,
+  },
+  {
+    id: 'cand_002',
+    name: 'Fatima Ali',
+    email: 'fatima.ali@example.com',
+    avatarUrl: 'https://picsum.photos/seed/fatima/200',
+    progress: 40,
+    payment: { agreed: 6000, additional: 0, received: 2000 },
+    medicalStatus: MedicalStatus.SlipSent,
+    guardian: { relation: 'Husband', cnic: '54321-0987654-3', contactNumber: '+92 333 7654321' },
+    bankAccount: 'PK40 HABB 0000 0098 7654 3210',
+    documents: [
+      { id: 'doc1', name: 'Passport', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Courier },
+      { id: 'doc2', name: 'Diploma', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected, verificationStatus: DiplomaVerificationStatus.None },
+    ],
+    videos: ['video1.mp4'],
+    workflowStatus: WorkflowStatus.Entry,
+    hiringOfficerId: 'officer_02',
+    customerType: CustomerType.Return,
+  },
+  {
+    id: 'cand_003',
+    name: 'Zainab Ahmed',
+    email: 'zainab.ahmed@example.com',
+    avatarUrl: 'https://picsum.photos/seed/zainab/200',
+    progress: 60,
+    payment: { agreed: 5500, additional: 200, received: 5700 },
+    medicalStatus: MedicalStatus.Fit,
+    guardian: { relation: 'Brother', cnic: '98765-4321098-7', contactNumber: '+92 321 8765432' },
+    bankAccount: 'PK50 MEZN 0000 0054 3210 9876',
+    documents: [
+      { id: 'doc1', name: 'Passport', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Direct },
+      { id: 'doc2', name: 'Diploma', status: DocumentStatus.Attested, collectionMethod: CollectionMethod.Direct, verificationStatus: DiplomaVerificationStatus.ReceivedFromEmbassy },
+      { id: 'doc3', name: 'Dataflow Report', status: DocumentStatus.OnHand, collectionMethod: CollectionMethod.Direct },
+    ],
+    videos: ['video1.mp4', 'video2.mp4'],
+    workflowStatus: WorkflowStatus.AwaitingMumaris,
+    hiringOfficerId: 'officer_01',
+    customerType: CustomerType.Fresh,
+  },
+  {
+    id: 'cand_004',
+    name: 'Sana Javed',
+    email: 'sana.javed@example.com',
+    avatarUrl: 'https://picsum.photos/seed/sana/200',
+    progress: 95,
+    payment: { agreed: 7000, additional: 0, received: 7000 },
+    medicalStatus: MedicalStatus.Fit,
+    guardian: { relation: 'Father', cnic: '11223-3445566-7', contactNumber: '+92 345 1122334' },
+    bankAccount: 'PK60 UBL 0000 0011 2233 4455',
+    documents: [
+      { id: 'doc1', name: 'Passport', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Courier },
+      { id: 'doc2', name: 'Diploma', status: DocumentStatus.Attested, collectionMethod: CollectionMethod.Courier, verificationStatus: DiplomaVerificationStatus.ReceivedFromEmbassy },
+      { id: 'doc3', name: 'Dataflow Report', status: DocumentStatus.OnHand, collectionMethod: CollectionMethod.Courier },
+      { id: 'doc7', name: 'NOC', status: DocumentStatus.Received, collectionMethod: CollectionMethod.Courier },
+    ],
+    videos: [],
+    workflowStatus: WorkflowStatus.AwaitingProtector,
+    hiringOfficerId: 'officer_02',
+    customerType: CustomerType.InProcess,
+  },
+   {
+    id: 'cand_005',
+    name: 'Hina Riaz',
+    email: 'hina.riaz@example.com',
+    avatarUrl: 'https://picsum.photos/seed/hina/200',
+    progress: 85,
+    payment: { agreed: 6500, additional: 100, received: 6600 },
+    medicalStatus: MedicalStatus.Fit,
+    guardian: { relation: 'Husband', cnic: '22334-4556677-8', contactNumber: '+92 312 9876543' },
+    bankAccount: 'PK70 BAHL 0000 0022 3344 5566',
+    documents: [],
+    videos: [],
+    workflowStatus: WorkflowStatus.VisaIssued,
+    hiringOfficerId: 'officer_01',
+    customerType: CustomerType.Fresh,
+  }
+];
+
+export const MOCK_EMPLOYEES: Employee[] = [
+  { id: 'emp_01', name: 'Admin User', role: 'admin', email: 'admin@recruitsys.com' },
+  { id: 'emp_02', name: 'Entry Clerk', role: 'entry', email: 'entry@recruitsys.com' },
+  { id: 'officer_01', name: 'Mr. Khan', role: 'hiring', email: 'khan@recruitsys.com' },
+  { id: 'officer_02', name: 'Ms. Fatima', role: 'hiring', email: 'fatima@recruitsys.com' },
+  { id: 'emp_05', name: 'Dataflow Team', role: 'dataflow', email: 'dataflow@recruitsys.com' },
+  { id: 'emp_06', name: 'Mumaris Team', role: 'mumaris', email: 'mumaris@recruitsys.com' },
+];
+
+export const MOCK_DEMAND_LETTERS: DemandLetter[] = [
+    { id: 'dem_01', clinicName: 'Riyadh Central Hospital', positions: 25, status: 'Active' },
+    { id: 'dem_02', clinicName: 'Jeddah Specialized Clinic', positions: 10, status: 'Active' },
+    { id: 'dem_03', clinicName: 'Dammam Medical Center', positions: 15, status: 'Fulfilled' },
+];
+
+export const ALL_ROLES: { id: Role; name: string }[] = [
+  { id: 'admin', name: 'Admin' },
+  { id: 'entry', name: 'Entry Management' },
+  { id: 'hiring', name: 'Hiring Officer' },
+  { id: 'dataflow', name: 'Dataflow Management' },
+  { id: 'mumaris', name: 'Mumaris Plus' },
+  { id: 'qvp', name: 'QVP' },
+  { id: 'embassy', name: 'Embassy Cases' },
+  { id: 'bureau', name: 'Bureau Processing' },
+  { id: 'protector', name: 'Protector Processing' },
+];
