@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { DemandLetter } from '../../types';
+import DemandLetterModal from './DemandLetterModal';
 
 interface DemandLettersProps {
     demandLetters: DemandLetter[];
@@ -7,23 +8,41 @@ interface DemandLettersProps {
 }
 
 const DemandLetters: React.FC<DemandLettersProps> = ({ demandLetters, setDemandLetters }) => {
-    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedLetter, setSelectedLetter] = useState<DemandLetter | null>(null);
+
     const handleAdd = () => {
-        const clinicName = prompt("Enter Clinic Name:");
-        const positions = prompt("Enter number of positions:");
-        if (clinicName && positions && !isNaN(parseInt(positions))) {
+        setSelectedLetter(null);
+        setIsModalOpen(true);
+    };
+
+    const handleEdit = (letter: DemandLetter) => {
+        setSelectedLetter(letter);
+        setIsModalOpen(true);
+    };
+
+    const handleSave = (demandLetterData: { clinicName: string; positions: number }) => {
+        if (selectedLetter) {
+            // Edit existing
+            setDemandLetters(demandLetters.map(d =>
+                d.id === selectedLetter.id
+                    ? { ...d, ...demandLetterData }
+                    : d
+            ));
+        } else {
+            // Add new
             const newLetter: DemandLetter = {
                 id: `dem_${Date.now()}`,
-                clinicName,
-                positions: parseInt(positions),
+                clinicName: demandLetterData.clinicName,
+                positions: demandLetterData.positions,
                 status: 'Active',
             };
             setDemandLetters([...demandLetters, newLetter]);
-        } else if (clinicName) {
-            alert("Invalid number of positions.");
         }
+        setIsModalOpen(false);
+        setSelectedLetter(null);
     };
-    
+
     const toggleStatus = (id: string) => {
         setDemandLetters(demandLetters.map(d => {
             if (d.id === id) {
@@ -34,13 +53,20 @@ const DemandLetters: React.FC<DemandLettersProps> = ({ demandLetters, setDemandL
     };
 
     const handleRemove = (id: string) => {
-        if(confirm("Are you sure you want to remove this demand letter?")) {
+        if (confirm("Are you sure you want to remove this demand letter?")) {
             setDemandLetters(demandLetters.filter(d => d.id !== id));
         }
     };
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
+            {isModalOpen && (
+                <DemandLetterModal
+                    demandLetter={selectedLetter}
+                    onClose={() => setIsModalOpen(false)}
+                    onSave={handleSave}
+                />
+            )}
             <div className="flex justify-between items-center border-b pb-2 mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">Client Demand Letters ({demandLetters.length})</h3>
                 <button onClick={handleAdd} className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
@@ -68,6 +94,7 @@ const DemandLetters: React.FC<DemandLettersProps> = ({ demandLetters, setDemandL
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-4">
+                                    <button onClick={() => handleEdit(letter)} className="text-indigo-600 hover:text-indigo-800">Edit</button>
                                     <button onClick={() => toggleStatus(letter.id)} className="text-primary-600 hover:text-primary-800">
                                         Mark as {letter.status === 'Active' ? 'Fulfilled' : 'Active'}
                                     </button>
