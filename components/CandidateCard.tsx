@@ -14,8 +14,8 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate, isSelected, on
       onClick={onSelect}
       className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
         isSelected
-          ? 'bg-primary-100 ring-2 ring-primary-500 shadow-lg'
-          : 'bg-gray-50 hover:bg-primary-50 hover:shadow-md'
+          ? 'bg-primary-100 ring-2 ring-accent-500 shadow-lg'
+          : 'bg-white hover:bg-primary-50 hover:shadow-md'
       }`}
     >
       <div className="flex items-center space-x-4">

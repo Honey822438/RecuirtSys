@@ -9,7 +9,7 @@ interface PortalLayoutProps {
 
 const PortalLayout: React.FC<PortalLayoutProps> = ({ portalName, userName, onLogout, children }) => {
   return (
-    <div className="flex flex-col h-screen bg-gray-100 font-sans">
+    <div className="flex flex-col h-screen bg-gray-50 font-sans">
       <header className="flex justify-between items-center p-4 bg-white border-b border-gray-200 shadow-sm">
         <div>
             <h1 className="text-2xl font-bold text-gray-800">{portalName}</h1>
@@ -26,7 +26,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({ portalName, userName, onLog
         </div>
       </header>
       
-      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 lg:p-8">
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
         {children}
       </main>
     </div>

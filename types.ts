@@ -101,6 +101,7 @@ export interface Employee {
   name: string;
   role: Role;
   email: string;
+  password: string;
 }
 
 export interface DemandLetter {

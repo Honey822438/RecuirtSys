@@ -10,22 +10,42 @@ import EmbassyPortal from './portals/EmbassyPortal';
 import BureauPortal from './portals/BureauPortal';
 import ProtectorPortal from './portals/ProtectorPortal';
 import LoginScreen from './screens/LoginScreen';
-import { MOCK_CANDIDATES } from './constants';
-import type { Candidate } from './types';
+import SignUpScreen from './screens/SignUpScreen';
+import { MOCK_CANDIDATES, MOCK_EMPLOYEES } from './constants';
+import type { Candidate, Employee } from './types';
 
 export type Role = 'admin' | 'hiring' | 'entry' | 'dataflow' | 'mumaris' | 'qvp' | 'embassy' | 'bureau' | 'protector';
 
 const App: React.FC = () => {
+  const [view, setView] = useState<'login' | 'signup'>('login');
   const [loggedInRole, setLoggedInRole] = useState<Role | null>(null);
   const [candidates, setCandidates] = useState<Candidate[]>(MOCK_CANDIDATES);
+  const [employees, setEmployees] = useState<Employee[]>(MOCK_EMPLOYEES);
 
   const handleLogout = () => {
     setLoggedInRole(null);
+    setView('login');
+  };
+  
+  const handleSignUp = (newEmployeeData: Omit<Employee, 'id'>) => {
+    const newEmployee: Employee = {
+        ...newEmployeeData,
+        id: `emp_${Date.now()}`
+    };
+    setEmployees(prev => [...prev, newEmployee]);
+    setLoggedInRole(newEmployee.role); // Auto-login after signup
+  };
+
+  const renderAuth = () => {
+    if (view === 'login') {
+      return <LoginScreen onLogin={setLoggedInRole} employees={employees} onNavigateToSignUp={() => setView('signup')} />;
+    }
+    return <SignUpScreen onSignUp={handleSignUp} onNavigateToLogin={() => setView('login')} employees={employees} />;
   };
 
   const renderPortal = () => {
     if (!loggedInRole) {
-      return <LoginScreen onLogin={setLoggedInRole} />;
+      return renderAuth();
     }
 
     const portalProps = {
@@ -37,7 +57,7 @@ const App: React.FC = () => {
 
     switch (loggedInRole) {
       case 'admin':
-        return <AdminPortal {...portalProps} />;
+        return <AdminPortal {...portalProps} employees={employees} setEmployees={setEmployees} />;
       case 'hiring':
         return <HiringPortal {...portalProps} hiringOfficerId="officer_01" />;
       case 'entry':
@@ -55,11 +75,10 @@ const App: React.FC = () => {
       case 'protector':
         return <ProtectorPortal {...portalProps} />;
       default:
-        return <LoginScreen onLogin={setLoggedInRole} />;
+        return renderAuth();
     }
   };
 
-  // FIX: Corrected function call from renderScreen to the defined renderPortal.
   return <div className="antialiased text-gray-800">{renderPortal()}</div>;
 };
 

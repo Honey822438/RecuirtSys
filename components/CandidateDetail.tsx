@@ -24,11 +24,11 @@ const InfoField: React.FC<{ label: string; value: React.ReactNode }> = ({ label,
 );
 
 const Section: React.FC<{ title: string; children: React.ReactNode; onEdit?: () => void }> = ({ title, children, onEdit }) => (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white p-6 rounded-xl shadow-sm">
         <div className="flex justify-between items-center border-b pb-2 mb-4">
             <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
             {onEdit && (
-                <button onClick={onEdit} className="text-sm font-medium text-primary-600 hover:text-primary-800">Edit</button>
+                <button onClick={onEdit} className="text-sm font-medium text-accent-600 hover:text-accent-800">Edit</button>
             )}
         </div>
         {children}
@@ -117,7 +117,7 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
   ].includes(candidate.workflowStatus);
 
   return (
-    <div className="space-y-6 pb-6 h-full overflow-y-auto">
+    <div className="space-y-6 pb-6 h-full overflow-y-auto pr-2">
       {isEditPaymentOpen && onUpdateCandidate && (
         <EditPaymentModal 
           candidate={candidate}
@@ -139,7 +139,7 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
         />
       )}
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-xl shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
           <img
             className="h-24 w-24 rounded-full object-cover ring-4 ring-primary-200"
@@ -147,8 +147,8 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
             alt={candidate.name}
           />
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-primary-800">{candidate.name}</h2>
-            <p className="text-primary-500">{candidate.email}</p>
+            <h2 className="text-2xl font-bold text-primary-900">{candidate.name}</h2>
+            <p className="text-primary-600">{candidate.email}</p>
             <div className="mt-2 flex items-center gap-x-4 gap-y-2 flex-wrap">
                 <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-600">Workflow Status:</span>
@@ -175,7 +175,7 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
             <button 
                 onClick={() => alert("Generating PDF with all candidate documents...")}
                 disabled={!isPostVisa}
-                className="w-full bg-accent hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               Generate PDF
             </button>
@@ -185,7 +185,7 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
           <label htmlFor="progress" className="block text-sm font-medium text-gray-700 mb-1">Overall Progress</label>
           <div className="w-full bg-gray-200 rounded-full h-4">
             <div
-              className="bg-primary-600 h-4 rounded-full"
+              className="bg-gradient-to-r from-accent-400 to-accent-500 h-4 rounded-full"
               style={{ width: `${candidate.progress}%` }}
             ></div>
           </div>
@@ -243,19 +243,19 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
             <input type="file" ref={briefingInputRef} onChange={(e) => handleGenericDocUpload(e, 'Briefing Paper')} className="hidden" accept="image/png, image/jpeg, .pdf" />
             <input type="file" ref={affidavitInputRef} onChange={(e) => handleGenericDocUpload(e, 'Affidavit')} className="hidden" accept="image/png, image/jpeg, .pdf" />
             
-            <button onClick={() => handleUploadClick(fileInputRef)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Flight Ticket</button>
-            <button onClick={() => handleUploadClick(wakalaInputRef)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Wakala</button>
+            <button onClick={() => handleUploadClick(fileInputRef)} className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Flight Ticket</button>
+            <button onClick={() => handleUploadClick(wakalaInputRef)} className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Wakala</button>
             <button 
                 onClick={() => handleUploadClick(briefingInputRef)} 
                 disabled={!isPostVisa}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
                 Upload Briefing Paper
             </button>
             <button 
                 onClick={() => handleUploadClick(affidavitInputRef)} 
                 disabled={!isPostVisa}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
                 Upload Affidavit
             </button>

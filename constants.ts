@@ -101,12 +101,12 @@ export const MOCK_CANDIDATES: Candidate[] = [
 ];
 
 export const MOCK_EMPLOYEES: Employee[] = [
-  { id: 'emp_01', name: 'Admin User', role: 'admin', email: 'admin@recruitsys.com' },
-  { id: 'emp_02', name: 'Entry Clerk', role: 'entry', email: 'entry@recruitsys.com' },
-  { id: 'officer_01', name: 'Mr. Khan', role: 'hiring', email: 'khan@recruitsys.com' },
-  { id: 'officer_02', name: 'Ms. Fatima', role: 'hiring', email: 'fatima@recruitsys.com' },
-  { id: 'emp_05', name: 'Dataflow Team', role: 'dataflow', email: 'dataflow@recruitsys.com' },
-  { id: 'emp_06', name: 'Mumaris Team', role: 'mumaris', email: 'mumaris@recruitsys.com' },
+  { id: 'emp_01', name: 'Admin User', role: 'admin', email: 'admin@recruitsys.com', password: 'password' },
+  { id: 'emp_02', name: 'Entry Clerk', role: 'entry', email: 'entry@recruitsys.com', password: 'password' },
+  { id: 'officer_01', name: 'Mr. Khan', role: 'hiring', email: 'khan@recruitsys.com', password: 'password' },
+  { id: 'officer_02', name: 'Ms. Fatima', role: 'hiring', email: 'fatima@recruitsys.com', password: 'password' },
+  { id: 'emp_05', name: 'Dataflow Team', role: 'dataflow', email: 'dataflow@recruitsys.com', password: 'password' },
+  { id: 'emp_06', name: 'Mumaris Team', role: 'mumaris', email: 'mumaris@recruitsys.com', password: 'password' },
 ];
 
 export const MOCK_DEMAND_LETTERS: DemandLetter[] = [
