@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminPortal from './portals/AdminPortal';
 import EntryPortal from './portals/EntryPortal';
 import HiringPortal from './portals/HiringPortal';
@@ -11,16 +11,29 @@ import BureauPortal from './portals/BureauPortal';
 import ProtectorPortal from './portals/ProtectorPortal';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import { MOCK_CANDIDATES, MOCK_EMPLOYEES } from './constants';
-import type { Candidate, Employee } from './types';
+import * as db from './database';
+import type { Candidate, Employee, DemandLetter } from './types';
 
 export type Role = 'admin' | 'hiring' | 'entry' | 'dataflow' | 'mumaris' | 'qvp' | 'embassy' | 'bureau' | 'protector';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'login' | 'signup'>('login');
   const [loggedInRole, setLoggedInRole] = useState<Role | null>(null);
-  const [candidates, setCandidates] = useState<Candidate[]>(MOCK_CANDIDATES);
-  const [employees, setEmployees] = useState<Employee[]>(MOCK_EMPLOYEES);
+  const [candidates, setCandidates] = useState<Candidate[]>(() => db.getCandidates());
+  const [employees, setEmployees] = useState<Employee[]>(() => db.getEmployees());
+  const [demandLetters, setDemandLetters] = useState<DemandLetter[]>(() => db.getDemandLetters());
+
+  useEffect(() => {
+    db.setCandidates(candidates);
+  }, [candidates]);
+
+  useEffect(() => {
+    db.setEmployees(employees);
+  }, [employees]);
+  
+  useEffect(() => {
+    db.setDemandLetters(demandLetters);
+  }, [demandLetters]);
 
   const handleLogout = () => {
     setLoggedInRole(null);
@@ -57,7 +70,13 @@ const App: React.FC = () => {
 
     switch (loggedInRole) {
       case 'admin':
-        return <AdminPortal {...portalProps} employees={employees} setEmployees={setEmployees} />;
+        return <AdminPortal 
+                    {...portalProps} 
+                    employees={employees} 
+                    setEmployees={setEmployees}
+                    demandLetters={demandLetters}
+                    setDemandLetters={setDemandLetters}
+                />;
       case 'hiring':
         return <HiringPortal {...portalProps} hiringOfficerId="officer_01" />;
       case 'entry':

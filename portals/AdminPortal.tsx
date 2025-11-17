@@ -5,7 +5,6 @@ import PortalLayout from '../components/PortalLayout';
 import CandidateCard from '../components/CandidateCard';
 import CandidateDetail from '../components/CandidateDetail';
 import type { Role } from '../App';
-import { MOCK_DEMAND_LETTERS } from '../constants';
 
 // New Admin Components
 import AdminDashboard from '../components/admin/AdminDashboard';
@@ -20,17 +19,16 @@ interface AdminPortalProps {
   currentUser: Role;
   employees: Employee[];
   setEmployees: (employees: Employee[]) => void;
+  demandLetters: DemandLetter[];
+  setDemandLetters: (letters: DemandLetter[]) => void;
 }
 
 type AdminTab = 'dashboard' | 'candidates' | 'employees' | 'demands';
 
-const AdminPortal: React.FC<AdminPortalProps> = ({ candidates, setCandidates, onLogout, currentUser, employees, setEmployees }) => {
+const AdminPortal: React.FC<AdminPortalProps> = ({ candidates, setCandidates, onLogout, currentUser, employees, setEmployees, demandLetters, setDemandLetters }) => {
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(candidates[0] || null);
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
   
-  const [demandLetters, setDemandLetters] = useState<DemandLetter[]>(MOCK_DEMAND_LETTERS);
-
-
   const handleUpdateCandidate = (updatedCandidate: Candidate) => {
     setCandidates(candidates.map(c => c.id === updatedCandidate.id ? updatedCandidate : c));
     if (selectedCandidate?.id === updatedCandidate.id) {

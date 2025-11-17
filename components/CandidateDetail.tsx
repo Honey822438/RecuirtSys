@@ -248,16 +248,14 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
             <button onClick={() => handleUploadClick(fileInputRef)} className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Flight Ticket</button>
             <button onClick={() => handleUploadClick(wakalaInputRef)} className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors">Upload Wakala</button>
             <button 
-                onClick={() => handleUploadClick(briefingInputRef)} 
-                disabled={!isPostVisa}
-                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                onClick={() => handleUploadClick(briefingInputRef)}
+                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors"
             >
                 Upload Briefing Paper
             </button>
             <button 
-                onClick={() => handleUploadClick(affidavitInputRef)} 
-                disabled={!isPostVisa}
-                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                onClick={() => handleUploadClick(affidavitInputRef)}
+                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 rounded-lg text-sm transition-colors"
             >
                 Upload Affidavit
             </button>
