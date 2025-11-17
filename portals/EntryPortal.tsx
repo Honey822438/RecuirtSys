@@ -38,6 +38,8 @@ const EntryPortal: React.FC<EntryPortalProps> = ({ candidates, setCandidates, on
       documents: [
         { id: 'doc1', name: 'Passport', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
         { id: 'doc2', name: 'Diploma', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected, verificationStatus: DiplomaVerificationStatus.None },
+        { id: 'doc3', name: 'PNC', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc4', name: 'Experience Certificate', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
       ],
     };
     setCandidates([...candidates, newCandidate]);
