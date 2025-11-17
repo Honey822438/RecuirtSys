@@ -23,6 +23,7 @@ export enum WorkflowStatus {
   AwaitingMumaris = 'Awaiting Mumaris',
   MumarisApplied = 'Mumaris Applied',
   AwaitingQVP = 'Awaiting QVP',
+  QVPApplied = 'QVP Applied',
   AwaitingEmbassy = 'Awaiting Embassy',
   VisaIssued = 'Visa Issued',
   AwaitingBureau = 'Awaiting Bureau',

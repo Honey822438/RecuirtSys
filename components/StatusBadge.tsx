@@ -26,6 +26,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     'Awaiting Mumaris': 'bg-indigo-100 text-indigo-800',
     'Mumaris Applied': 'bg-indigo-200 text-indigo-900',
     'Awaiting QVP': 'bg-amber-100 text-amber-800',
+    'QVP Applied': 'bg-amber-200 text-amber-900',
     'Awaiting Embassy': 'bg-purple-100 text-purple-800',
     'Visa Issued': 'bg-pink-100 text-pink-800',
     'Awaiting Bureau': 'bg-orange-100 text-orange-800',

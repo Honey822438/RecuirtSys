@@ -36,10 +36,21 @@ const EntryPortal: React.FC<EntryPortalProps> = ({ candidates, setCandidates, on
         received: 0,
       },
       documents: [
+        // Core Docs
         { id: 'doc1', name: 'Passport', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
         { id: 'doc2', name: 'Diploma', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected, verificationStatus: DiplomaVerificationStatus.None },
         { id: 'doc3', name: 'PNC', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
         { id: 'doc4', name: 'Experience Certificate', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc5', name: 'Diploma (Back)', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc6', name: 'Nursing Mark Sheets', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        // Embassy Docs
+        { id: 'doc7', name: 'CNIC', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc8', name: 'Marriage Certificate', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc9', name: 'Wakala', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        // Bureau & Protector Docs
+        { id: 'doc10', name: 'NOC', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc11', name: 'Briefing Paper', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
+        { id: 'doc12', name: 'Affidavit', status: DocumentStatus.Pending, collectionMethod: CollectionMethod.NotCollected },
       ],
     };
     setCandidates([...candidates, newCandidate]);
