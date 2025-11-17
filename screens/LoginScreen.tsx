@@ -4,7 +4,7 @@ import { BriefcaseIcon } from '../components/icons';
 import type { Employee } from '../types';
 
 interface LoginScreenProps {
-  onLogin: (role: Role) => void;
+  onLogin: (employee: Employee) => void;
   employees: Employee[];
   onNavigateToSignUp: () => void;
 }
@@ -21,7 +21,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees, onNavigat
     const employee = employees.find(emp => emp.email === email);
 
     if (employee && employee.password === password) {
-      onLogin(employee.role);
+      onLogin(employee);
     } else {
       setError('Invalid email or password.');
     }

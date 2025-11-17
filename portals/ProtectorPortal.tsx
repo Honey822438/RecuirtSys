@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate } from '../types';
+import type { Candidate, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus } from '../types';
 
@@ -7,9 +7,10 @@ interface ProtectorPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const ProtectorPortal: React.FC<ProtectorPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const ProtectorPortal: React.FC<ProtectorPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const protectorCandidates = candidates.filter(c => 
     c.workflowStatus === WorkflowStatus.AwaitingProtector
   );
@@ -23,7 +24,7 @@ const ProtectorPortal: React.FC<ProtectorPortalProps> = ({ candidates, setCandid
   };
 
   return (
-    <PortalLayout portalName="Protector Processing" userName="Protector Team" onLogout={onLogout}>
+    <PortalLayout portalName="Protector Processing" userName={currentUser.name} onLogout={onLogout}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for Protector Emigration ({protectorCandidates.length})</h3>
         {protectorCandidates.length > 0 ? (

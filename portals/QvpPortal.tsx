@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate } from '../types';
+import type { Candidate, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus, MedicalStatus } from '../types';
 
@@ -7,9 +7,10 @@ interface QvpPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const QvpPortal: React.FC<QvpPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const QvpPortal: React.FC<QvpPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const qvpCandidates = candidates.filter(c => 
     c.workflowStatus === WorkflowStatus.AwaitingQVP && c.medicalStatus === MedicalStatus.Fit
   );
@@ -23,7 +24,7 @@ const QvpPortal: React.FC<QvpPortalProps> = ({ candidates, setCandidates, onLogo
   };
 
   return (
-    <PortalLayout portalName="QVP (Qualification Verification)" userName="QVP Team" onLogout={onLogout}>
+    <PortalLayout portalName="QVP (Qualification Verification)" userName={currentUser.name} onLogout={onLogout}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for QVP ({qvpCandidates.length})</h3>
         {qvpCandidates.length > 0 ? (

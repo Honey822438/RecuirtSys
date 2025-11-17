@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate } from '../types';
+import type { Candidate, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus } from '../types';
 
@@ -7,9 +7,10 @@ interface BureauPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const BureauPortal: React.FC<BureauPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const BureauPortal: React.FC<BureauPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const bureauCandidates = candidates.filter(c => 
     c.workflowStatus === WorkflowStatus.AwaitingBureau
   );
@@ -23,7 +24,7 @@ const BureauPortal: React.FC<BureauPortalProps> = ({ candidates, setCandidates, 
   };
 
   return (
-    <PortalLayout portalName="Bureau Processing" userName="Bureau Team" onLogout={onLogout}>
+    <PortalLayout portalName="Bureau Processing" userName={currentUser.name} onLogout={onLogout}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for NOC Submission ({bureauCandidates.length})</h3>
         {bureauCandidates.length > 0 ? (

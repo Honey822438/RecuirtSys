@@ -64,6 +64,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
 const EmployeeManagement: React.FC<EmployeeManagementProps> = ({ employees, setEmployees }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+    const [filterRole, setFilterRole] = useState<Role | 'all'>('all');
 
     const handleAdd = () => {
         setSelectedEmployee(null);
@@ -77,9 +78,9 @@ const EmployeeManagement: React.FC<EmployeeManagementProps> = ({ employees, setE
 
     const handleSave = (employee: Employee) => {
         if (selectedEmployee) {
-            setEmployees(employees.map(e => e.id === employee.id ? employee : e));
+            setEmployees(employees.map(e => e.id === employee.id ? { ...employee, password: e.password } : e));
         } else {
-            setEmployees([...employees, employee]);
+            setEmployees([...employees, { ...employee, password: 'password' }]);
         }
         setIsModalOpen(false);
         setSelectedEmployee(null);
@@ -89,14 +90,35 @@ const EmployeeManagement: React.FC<EmployeeManagementProps> = ({ employees, setE
         alert(`Password reset link sent to ${employee.email}`);
     };
 
+    const filteredEmployees = employees.filter(emp => filterRole === 'all' || emp.role === filterRole);
+    
+    const TABS: { id: Role | 'all'; name: string }[] = [{ id: 'all', name: 'All Departments' }, ...ALL_ROLES];
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
             {isModalOpen && <EmployeeModal employee={selectedEmployee} onClose={() => setIsModalOpen(false)} onSave={handleSave} />}
             <div className="flex justify-between items-center border-b pb-2 mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">System Users ({employees.length})</h3>
+                <h3 className="text-lg font-semibold text-gray-800">System Users ({filteredEmployees.length})</h3>
                 <button onClick={handleAdd} className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
                     Add Employee
                 </button>
+            </div>
+             <div className="mb-4 border-b border-gray-200">
+                <nav className="-mb-px flex space-x-6 overflow-x-auto" aria-label="Tabs">
+                    {TABS.map(tab => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setFilterRole(tab.id)}
+                            className={`${
+                            filterRole === tab.id
+                                ? 'border-accent-500 text-primary-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            } whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm transition-colors`}
+                        >
+                            {tab.name}
+                        </button>
+                    ))}
+                </nav>
             </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -108,7 +130,7 @@ const EmployeeManagement: React.FC<EmployeeManagementProps> = ({ employees, setE
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {employees.map(emp => (
+                        {filteredEmployees.map(emp => (
                             <tr key={emp.id}>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="font-semibold">{emp.name}</div>

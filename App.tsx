@@ -18,7 +18,7 @@ export type Role = 'admin' | 'hiring' | 'entry' | 'dataflow' | 'mumaris' | 'qvp'
 
 const App: React.FC = () => {
   const [view, setView] = useState<'login' | 'signup'>('login');
-  const [loggedInRole, setLoggedInRole] = useState<Role | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<Employee | null>(null);
   const [candidates, setCandidates] = useState<Candidate[]>(() => db.getCandidates());
   const [employees, setEmployees] = useState<Employee[]>(() => db.getEmployees());
   const [demandLetters, setDemandLetters] = useState<DemandLetter[]>(() => db.getDemandLetters());
@@ -36,8 +36,12 @@ const App: React.FC = () => {
   }, [demandLetters]);
 
   const handleLogout = () => {
-    setLoggedInRole(null);
+    setLoggedInUser(null);
     setView('login');
+  };
+
+  const handleLogin = (employee: Employee) => {
+    setLoggedInUser(employee);
   };
   
   const handleSignUp = (newEmployeeData: Omit<Employee, 'id'>) => {
@@ -46,18 +50,18 @@ const App: React.FC = () => {
         id: `emp_${Date.now()}`
     };
     setEmployees(prev => [...prev, newEmployee]);
-    setLoggedInRole(newEmployee.role); // Auto-login after signup
+    setLoggedInUser(newEmployee); // Auto-login after signup
   };
 
   const renderAuth = () => {
     if (view === 'login') {
-      return <LoginScreen onLogin={setLoggedInRole} employees={employees} onNavigateToSignUp={() => setView('signup')} />;
+      return <LoginScreen onLogin={handleLogin} employees={employees} onNavigateToSignUp={() => setView('signup')} />;
     }
     return <SignUpScreen onSignUp={handleSignUp} onNavigateToLogin={() => setView('login')} employees={employees} />;
   };
 
   const renderPortal = () => {
-    if (!loggedInRole) {
+    if (!loggedInUser) {
       return renderAuth();
     }
 
@@ -65,10 +69,10 @@ const App: React.FC = () => {
       candidates,
       setCandidates,
       onLogout: handleLogout,
-      currentUser: loggedInRole,
+      currentUser: loggedInUser,
     };
 
-    switch (loggedInRole) {
+    switch (loggedInUser.role) {
       case 'admin':
         return <AdminPortal 
                     {...portalProps} 
@@ -78,7 +82,7 @@ const App: React.FC = () => {
                     setDemandLetters={setDemandLetters}
                 />;
       case 'hiring':
-        return <HiringPortal {...portalProps} hiringOfficerId="officer_01" />;
+        return <HiringPortal {...portalProps} />;
       case 'entry':
         return <EntryPortal {...portalProps} />;
       case 'dataflow':

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate } from '../types';
+import type { Candidate, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus } from '../types';
 
@@ -7,9 +7,10 @@ interface EmbassyPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const EmbassyPortal: React.FC<EmbassyPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const EmbassyPortal: React.FC<EmbassyPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const embassyCandidates = candidates.filter(c => 
     c.workflowStatus === WorkflowStatus.AwaitingEmbassy
   );
@@ -23,7 +24,7 @@ const EmbassyPortal: React.FC<EmbassyPortalProps> = ({ candidates, setCandidates
   };
 
   return (
-    <PortalLayout portalName="Embassy Case Management" userName="Embassy Team" onLogout={onLogout}>
+    <PortalLayout portalName="Embassy Case Management" userName={currentUser.name} onLogout={onLogout}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for Embassy Submission ({embassyCandidates.length})</h3>
         {embassyCandidates.length > 0 ? (

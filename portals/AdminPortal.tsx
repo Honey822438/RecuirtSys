@@ -4,7 +4,6 @@ import type { Candidate, Employee, DemandLetter } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import CandidateCard from '../components/CandidateCard';
 import CandidateDetail from '../components/CandidateDetail';
-import type { Role } from '../App';
 
 // New Admin Components
 import AdminDashboard from '../components/admin/AdminDashboard';
@@ -16,7 +15,7 @@ interface AdminPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
-  currentUser: Role;
+  currentUser: Employee;
   employees: Employee[];
   setEmployees: (employees: Employee[]) => void;
   demandLetters: DemandLetter[];
@@ -91,7 +90,7 @@ const AdminPortal: React.FC<AdminPortalProps> = ({ candidates, setCandidates, on
 
 
   return (
-    <PortalLayout portalName="Admin Panel" userName="Administrator" onLogout={onLogout}>
+    <PortalLayout portalName="Admin Panel" userName={currentUser.name} onLogout={onLogout}>
         <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm">
                 <div className="border-b border-gray-200">

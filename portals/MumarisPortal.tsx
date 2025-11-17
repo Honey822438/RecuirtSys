@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate, WorkflowStatus as WFStatus } from '../types';
+import type { Candidate, WorkflowStatus as WFStatus, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus } from '../types';
 import StatusBadge from '../components/StatusBadge';
@@ -8,9 +8,10 @@ interface MumarisPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const MumarisPortal: React.FC<MumarisPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const MumarisPortal: React.FC<MumarisPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const mumarisCandidates = candidates.filter(c => 
     [WorkflowStatus.AwaitingMumaris, WorkflowStatus.MumarisApplied].includes(c.workflowStatus)
   );
@@ -28,7 +29,7 @@ const MumarisPortal: React.FC<MumarisPortalProps> = ({ candidates, setCandidates
   };
 
   return (
-    <PortalLayout portalName="Mumaris Plus Integration" userName="Mumaris Team" onLogout={onLogout}>
+    <PortalLayout portalName="Mumaris Plus Integration" userName={currentUser.name} onLogout={onLogout}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for Mumaris Plus ({mumarisCandidates.length})</h3>
         {mumarisCandidates.length > 0 ? (

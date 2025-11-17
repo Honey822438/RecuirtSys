@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Candidate, WorkflowStatus as WFStatus } from '../types';
+import type { Candidate, WorkflowStatus as WFStatus, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
 import { WorkflowStatus } from '../types';
 import StatusBadge from '../components/StatusBadge';
@@ -8,9 +8,10 @@ interface DataflowPortalProps {
   candidates: Candidate[];
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
+  currentUser: Employee;
 }
 
-const DataflowPortal: React.FC<DataflowPortalProps> = ({ candidates, setCandidates, onLogout }) => {
+const DataflowPortal: React.FC<DataflowPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
   const dataflowCandidates = candidates.filter(c => 
     [WorkflowStatus.AwaitingDataflow, WorkflowStatus.DataflowApplied].includes(c.workflowStatus)
   );
@@ -29,7 +30,7 @@ const DataflowPortal: React.FC<DataflowPortalProps> = ({ candidates, setCandidat
   };
 
   return (
-    <PortalLayout portalName="Dataflow Management" userName="Dataflow Team" onLogout={onLogout}>
+    <PortalLayout portalName="Dataflow Management" userName={currentUser.name} onLogout={onLogout}>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Candidates for Dataflow ({dataflowCandidates.length})</h3>
           {dataflowCandidates.length > 0 ? (
