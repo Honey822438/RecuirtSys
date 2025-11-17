@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Candidate, Guardian } from '../types';
 import { CustomerType } from '../types';
 
-interface AddStaffModalProps {
+interface AddCustomerModalProps {
   onClose: () => void;
   onAddCandidate: (candidateData: Omit<Candidate, 'id' | 'avatarUrl' | 'progress' | 'documents' | 'workflowStatus' | 'videos' | 'medicalStatus' | 'payment'> & { payment: { agreed: number } }) => void;
 }
@@ -28,7 +28,7 @@ const SelectField: React.FC<React.SelectHTMLAttributes<HTMLSelectElement> & { la
     </div>
 );
 
-const AddStaffModal: React.FC<AddStaffModalProps> = ({ onClose, onAddCandidate }) => {
+const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandidate }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -83,7 +83,7 @@ const AddStaffModal: React.FC<AddStaffModalProps> = ({ onClose, onAddCandidate }
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
       <div className="relative mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
         <div className="mt-3 text-center">
-          <h3 className="text-xl leading-6 font-bold text-gray-900 border-b pb-4">Add New Staff Entry</h3>
+          <h3 className="text-xl leading-6 font-bold text-gray-900 border-b pb-4">Add New Customer Entry</h3>
           <form onSubmit={handleSubmit} className="mt-4 text-left space-y-6 p-4">
              {error && <div className="p-3 bg-red-100 text-red-700 rounded-md text-sm">{error}</div>}
             
@@ -153,4 +153,4 @@ const AddStaffModal: React.FC<AddStaffModalProps> = ({ onClose, onAddCandidate }
   );
 };
 
-export default AddStaffModal;
+export default AddCustomerModal;

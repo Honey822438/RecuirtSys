@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { type Candidate, DocumentStatus, type Employee, MedicalStatus, WorkflowStatus, type Guardian, type Payment } from '../types';
+// FIX: Import CollectionMethod enum to use its members instead of string literals.
+import { type Candidate, DocumentStatus, type Employee, MedicalStatus, WorkflowStatus, type Guardian, type Payment, CollectionMethod } from '../types';
 import DocumentChecklist from './DocumentChecklist';
 import PaymentInfo from './PaymentInfo';
 import StatusBadge from './StatusBadge';
@@ -63,7 +64,8 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
         if(existingDoc) {
             updatedDocuments = candidate.documents.map(d => d.name === docName ? {...d, status: DocumentStatus.Received } : d);
         } else {
-            updatedDocuments = [...candidate.documents, { id: `doc_${Date.now()}`, name: docName, status: DocumentStatus.Received, collectionMethod: 'Direct' }];
+            // FIX: Use the CollectionMethod enum member instead of a string literal to conform to the Document type.
+            updatedDocuments = [...candidate.documents, { id: `doc_${Date.now()}`, name: docName, status: DocumentStatus.Received, collectionMethod: CollectionMethod.Direct }];
         }
         onUpdateCandidate({ ...candidate, documents: updatedDocuments });
         alert(`${docName} document uploaded successfully!`);
