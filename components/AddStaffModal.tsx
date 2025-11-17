@@ -1,16 +1,13 @@
+
 import React, { useState } from 'react';
-import type { Candidate, Guardian } from '../types';
+import type { Candidate, Guardian, Employee } from '../types';
 import { CustomerType } from '../types';
 
 interface AddCustomerModalProps {
   onClose: () => void;
   onAddCandidate: (candidateData: Omit<Candidate, 'id' | 'avatarUrl' | 'progress' | 'documents' | 'workflowStatus' | 'videos' | 'medicalStatus' | 'payment'> & { payment: { agreed: number } }) => void;
+  employees: Employee[];
 }
-
-const MOCK_HIRING_OFFICERS = [
-  { id: 'officer_01', name: 'Mr. Khan' },
-  { id: 'officer_02', name: 'Ms. Fatima' },
-];
 
 const InputField: React.FC<React.InputHTMLAttributes<HTMLInputElement> & { label: string }> = ({ label, ...props }) => (
     <div>
@@ -28,7 +25,9 @@ const SelectField: React.FC<React.SelectHTMLAttributes<HTMLSelectElement> & { la
     </div>
 );
 
-const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandidate }) => {
+const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandidate, employees }) => {
+  const hiringOfficers = employees.filter(emp => emp.role === 'hiring');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -37,7 +36,7 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandi
     guardianRelation: 'Father' as Guardian['relation'],
     guardianCnic: '',
     guardianContact: '',
-    hiringOfficerId: MOCK_HIRING_OFFICERS[0].id,
+    hiringOfficerId: hiringOfficers.length > 0 ? hiringOfficers[0].id : '',
     customerType: CustomerType.Fresh,
   });
   const [error, setError] = useState('');
@@ -49,6 +48,13 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandi
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
+    if (hiringOfficers.length === 0) {
+        setError('Cannot add candidate. No hiring officers are available in the system.');
+        return;
+    }
+
     for (const key in formData) {
       if (!formData[key as keyof typeof formData]) {
         setError('All fields are required.');
@@ -61,8 +67,6 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandi
         setError('Agreed payment must be a valid number.');
         return;
     }
-
-    setError('');
     
     onAddCandidate({
       name: formData.name,
@@ -123,10 +127,14 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({ onClose, onAddCandi
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
                     <InputField label="Agreed Payment ($)" id="agreedPayment" name="agreedPayment" type="number" value={formData.agreedPayment} onChange={handleChange} required />
                     <InputField label="Bank Account Number" id="bankAccount" name="bankAccount" type="text" value={formData.bankAccount} onChange={handleChange} required />
-                    <SelectField label="Assign to Hiring Officer" id="hiringOfficerId" name="hiringOfficerId" value={formData.hiringOfficerId} onChange={handleChange}>
-                        {MOCK_HIRING_OFFICERS.map(officer => (
-                            <option key={officer.id} value={officer.id}>{officer.name}</option>
-                        ))}
+                    <SelectField label="Assign to Hiring Officer" id="hiringOfficerId" name="hiringOfficerId" value={formData.hiringOfficerId} onChange={handleChange} required>
+                        {hiringOfficers.length > 0 ? (
+                            hiringOfficers.map(officer => (
+                                <option key={officer.id} value={officer.id}>{officer.name}</option>
+                            ))
+                        ) : (
+                            <option value="" disabled>No hiring officers found</option>
+                        )}
                     </SelectField>
                 </div>
             </fieldset>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { Candidate, Employee } from '../types';
 import PortalLayout from '../components/PortalLayout';
@@ -10,9 +11,10 @@ interface EntryPortalProps {
   setCandidates: (candidates: Candidate[]) => void;
   onLogout: () => void;
   currentUser: Employee;
+  employees: Employee[];
 }
 
-const EntryPortal: React.FC<EntryPortalProps> = ({ candidates, setCandidates, onLogout, currentUser }) => {
+const EntryPortal: React.FC<EntryPortalProps> = ({ candidates, setCandidates, onLogout, currentUser, employees }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isManageDocsModalOpen, setIsManageDocsModalOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
@@ -58,6 +60,7 @@ const EntryPortal: React.FC<EntryPortalProps> = ({ candidates, setCandidates, on
         <AddCustomerModal 
           onClose={() => setIsAddModalOpen(false)} 
           onAddCandidate={handleAddCandidate} 
+          employees={employees}
         />
       )}
       {isManageDocsModalOpen && selectedCandidate && (

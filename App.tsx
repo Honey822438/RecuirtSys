@@ -84,7 +84,7 @@ const App: React.FC = () => {
       case 'hiring':
         return <HiringPortal {...portalProps} />;
       case 'entry':
-        return <EntryPortal {...portalProps} />;
+        return <EntryPortal {...portalProps} employees={employees} />;
       case 'dataflow':
         return <DataflowPortal {...portalProps} />;
       case 'mumaris':
