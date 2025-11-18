@@ -1,15 +1,14 @@
+
 import React, { useState } from 'react';
-import type { Role } from '../App';
 import { BriefcaseIcon } from '../components/icons';
 import type { Employee } from '../types';
 
 interface LoginScreenProps {
   onLogin: (employee: Employee) => void;
   employees: Employee[];
-  onNavigateToSignUp: () => void;
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees, onNavigateToSignUp }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -35,7 +34,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees, onNavigat
                 <BriefcaseIcon className="h-10 w-10 text-accent-400"/>
                 <span className="text-white text-3xl mx-2 font-bold">RecruitSys</span>
             </div>
-            <p className="text-gray-400">Sign in to your account</p>
+            <p className="text-gray-400">Sign in to your corporate account</p>
         </div>
         
         <form className="space-y-6" onSubmit={handleLogin}>
@@ -52,7 +51,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees, onNavigat
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g., admin@recruitsys.com"
+                placeholder="Enter your company email"
                 className="appearance-none block w-full px-3 py-2 border border-gray-600 bg-gray-700 text-gray-200 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm"
               />
             </div>
@@ -92,15 +91,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees, onNavigat
             </button>
           </div>
            <div className="text-center text-xs text-gray-500">
-            <p>For pre-defined users (e.g., admin@recruitsys.com), the password is "password".</p>
+            <p>System Administrator: <strong>admin@recruitsys.com</strong> / <strong>admin</strong></p>
+            <p className="mt-1">Contact admin to reset password or create new staff accounts.</p>
           </div>
         </form>
-         <p className="text-sm text-center">
-            Don't have an account?{' '}
-            <button onClick={onNavigateToSignUp} className="font-medium text-accent-400 hover:text-accent-300 focus:outline-none">
-                Sign up
-            </button>
-        </p>
       </div>
     </div>
   );

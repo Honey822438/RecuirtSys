@@ -10,14 +10,12 @@ import EmbassyPortal from './portals/EmbassyPortal';
 import BureauPortal from './portals/BureauPortal';
 import ProtectorPortal from './portals/ProtectorPortal';
 import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen';
 import * as db from './database';
 import type { Candidate, Employee, DemandLetter } from './types';
 
 export type Role = 'admin' | 'hiring' | 'entry' | 'dataflow' | 'mumaris' | 'qvp' | 'embassy' | 'bureau' | 'protector';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'login' | 'signup'>('login');
   const [loggedInUser, setLoggedInUser] = useState<Employee | null>(null);
   const [candidates, setCandidates] = useState<Candidate[]>(() => db.getCandidates());
   const [employees, setEmployees] = useState<Employee[]>(() => db.getEmployees());
@@ -37,32 +35,15 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     setLoggedInUser(null);
-    setView('login');
   };
 
   const handleLogin = (employee: Employee) => {
     setLoggedInUser(employee);
   };
-  
-  const handleSignUp = (newEmployeeData: Omit<Employee, 'id'>) => {
-    const newEmployee: Employee = {
-        ...newEmployeeData,
-        id: `emp_${Date.now()}`
-    };
-    setEmployees(prev => [...prev, newEmployee]);
-    setLoggedInUser(newEmployee); // Auto-login after signup
-  };
-
-  const renderAuth = () => {
-    if (view === 'login') {
-      return <LoginScreen onLogin={handleLogin} employees={employees} onNavigateToSignUp={() => setView('signup')} />;
-    }
-    return <SignUpScreen onSignUp={handleSignUp} onNavigateToLogin={() => setView('login')} employees={employees} />;
-  };
 
   const renderPortal = () => {
     if (!loggedInUser) {
-      return renderAuth();
+      return <LoginScreen onLogin={handleLogin} employees={employees} />;
     }
 
     const portalProps = {
@@ -98,7 +79,7 @@ const App: React.FC = () => {
       case 'protector':
         return <ProtectorPortal {...portalProps} />;
       default:
-        return renderAuth();
+        return <LoginScreen onLogin={handleLogin} employees={employees} />;
     }
   };
 

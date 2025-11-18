@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { Employee } from '../../types';
 import type { Role } from '../../App';
@@ -11,7 +12,7 @@ interface EmployeeManagementProps {
 interface EmployeeModalProps {
     employee: Employee | null;
     onClose: () => void;
-    onSave: (employee: Employee) => void;
+    onSave: (employee: Partial<Employee>) => void;
 }
 
 const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave }) => {
@@ -20,6 +21,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
         name: employee?.name || '',
         email: employee?.email || '',
         role: employee?.role || 'hiring',
+        password: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -28,7 +30,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSave(formData as Employee);
+        onSave(formData as Partial<Employee>);
     };
 
     return (
@@ -43,6 +45,21 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
                      <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                         <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"/>
+                    </div>
+                     <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            {employee ? 'New Password (leave blank to keep current)' : 'Password'}
+                        </label>
+                        <input 
+                            type="text" 
+                            name="password" 
+                            id="password" 
+                            value={formData.password} 
+                            onChange={handleChange} 
+                            required={!employee}
+                            placeholder={employee ? "••••••••" : "Enter password"}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                        />
                     </div>
                      <div>
                         <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
@@ -76,11 +93,36 @@ const EmployeeManagement: React.FC<EmployeeManagementProps> = ({ employees, setE
         setIsModalOpen(true);
     };
 
-    const handleSave = (employee: Employee) => {
+    const handleSave = (employeeData: Partial<Employee>) => {
         if (selectedEmployee) {
-            setEmployees(employees.map(e => e.id === employee.id ? { ...employee, password: e.password } : e));
+            // Update existing
+            setEmployees(employees.map(e => {
+                if (e.id === employeeData.id) {
+                    // If password was entered, update it. Otherwise keep existing.
+                    const updatedPassword = employeeData.password && employeeData.password.trim() !== '' 
+                        ? employeeData.password 
+                        : e.password;
+                    
+                    return { 
+                        ...e, 
+                        name: employeeData.name!,
+                        email: employeeData.email!,
+                        role: employeeData.role as Role,
+                        password: updatedPassword
+                    };
+                }
+                return e;
+            }));
         } else {
-            setEmployees([...employees, { ...employee, password: 'password' }]);
+            // Add new
+            const newEmployee: Employee = {
+                id: employeeData.id!,
+                name: employeeData.name!,
+                email: employeeData.email!,
+                role: employeeData.role as Role,
+                password: employeeData.password! // Required in form
+            };
+            setEmployees([...employees, newEmployee]);
         }
         setIsModalOpen(false);
         setSelectedEmployee(null);
