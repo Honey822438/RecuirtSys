@@ -2,10 +2,10 @@
 import { MOCK_CANDIDATES, MOCK_EMPLOYEES, MOCK_DEMAND_LETTERS } from './constants';
 import type { Candidate, Employee, DemandLetter } from './types';
 
-// Updated keys to V2 to clear old mock data from local storage
-const CANDIDATES_KEY = 'RECRUITSYS_CANDIDATES_V2';
-const EMPLOYEES_KEY = 'RECRUITSYS_EMPLOYEES_V2';
-const DEMAND_LETTERS_KEY = 'RECRUITSYS_DEMAND_LETTERS_V2';
+// Updated keys to PROD_V1 to clear old mock data and simulate a fresh production database
+const CANDIDATES_KEY = 'RECRUITSYS_CANDIDATES_PROD_V1';
+const EMPLOYEES_KEY = 'RECRUITSYS_EMPLOYEES_PROD_V1';
+const DEMAND_LETTERS_KEY = 'RECRUITSYS_DEMAND_LETTERS_PROD_V1';
 
 function getData<T>(key: string, fallbackData: T[]): T[] {
   try {

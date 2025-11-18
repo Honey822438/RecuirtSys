@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 // FIX: Import CollectionMethod enum to use its members instead of string literals.
 import { type Candidate, DocumentStatus, type Employee, MedicalStatus, WorkflowStatus, type Guardian, type Payment, CollectionMethod } from '../types';
@@ -59,16 +60,24 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
   
   const handleGenericDocUpload = (event: React.ChangeEvent<HTMLInputElement>, docName: string) => {
     if (event.target.files && event.target.files[0] && onUpdateCandidate) {
-        const existingDoc = candidate.documents.find(d => d.name === docName);
-        let updatedDocuments: Candidate['documents'];
-        if(existingDoc) {
-            updatedDocuments = candidate.documents.map(d => d.name === docName ? {...d, status: DocumentStatus.Received } : d);
-        } else {
-            // FIX: Use the CollectionMethod enum member instead of a string literal to conform to the Document type.
-            updatedDocuments = [...candidate.documents, { id: `doc_${Date.now()}`, name: docName, status: DocumentStatus.Received, collectionMethod: CollectionMethod.Direct }];
-        }
-        onUpdateCandidate({ ...candidate, documents: updatedDocuments });
-        alert(`${docName} document uploaded successfully!`);
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onloadend = () => {
+            const base64String = reader.result as string;
+            const existingDoc = candidate.documents.find(d => d.name === docName);
+            let updatedDocuments: Candidate['documents'];
+            
+            if(existingDoc) {
+                updatedDocuments = candidate.documents.map(d => d.name === docName ? {...d, status: DocumentStatus.Received, url: base64String } : d);
+            } else {
+                updatedDocuments = [...candidate.documents, { id: `doc_${Date.now()}`, name: docName, status: DocumentStatus.Received, collectionMethod: CollectionMethod.Direct, url: base64String }];
+            }
+            onUpdateCandidate({ ...candidate, documents: updatedDocuments });
+            alert(`${docName} document uploaded and saved successfully!`);
+        };
+        
+        reader.readAsDataURL(file);
     }
     event.target.value = ''; // Reset file input
   };
@@ -80,12 +89,17 @@ const CandidateDetail: React.FC<CandidateDetailProps> = ({ candidate, onUpdateCa
   const handleTicketUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files && event.target.files[0] && onUpdateCandidate) {
           const file = event.target.files[0];
-          const ticket = {
-              url: `/${file.name}`,
-              travelDate: new Date().toISOString().split('T')[0], // YYYY-MM-DD
-          };
-          onUpdateCandidate({ ...candidate, flightTicket: ticket, progress: Math.max(candidate.progress, 98) });
-          alert('Flight ticket uploaded successfully!');
+           const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result as string;
+                const ticket = {
+                    url: base64String,
+                    travelDate: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+                };
+                onUpdateCandidate({ ...candidate, flightTicket: ticket, progress: Math.max(candidate.progress, 98) });
+                alert('Flight ticket uploaded successfully!');
+            }
+            reader.readAsDataURL(file);
       }
   };
 

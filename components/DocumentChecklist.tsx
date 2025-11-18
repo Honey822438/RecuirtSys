@@ -18,7 +18,19 @@ const DocumentChecklist: React.FC<DocumentChecklistProps> = ({ documents, onDocu
       <div className="space-y-3">
         {documents.map(doc => (
           <div key={doc.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-md">
-            <span className="text-sm font-medium text-gray-700">{doc.name}</span>
+            <div className="flex items-center space-x-2">
+                 <span className="text-sm font-medium text-gray-700">{doc.name}</span>
+                 {doc.url && (
+                     <a 
+                        href={doc.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:underline hover:text-blue-800 font-medium"
+                     >
+                         (View)
+                     </a>
+                 )}
+            </div>
             <div className="flex items-center gap-2">
                 <StatusBadge status={doc.status} />
                 {onDocumentUpdate && (

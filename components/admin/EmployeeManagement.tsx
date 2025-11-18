@@ -48,7 +48,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
                     </div>
                      <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            {employee ? 'New Password (leave blank to keep current)' : 'Password'}
+                            {employee ? 'New Password (leave blank to keep current)' : 'Initial Password'}
                         </label>
                         <input 
                             type="text" 
@@ -57,9 +57,10 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ employee, onClose, onSave
                             value={formData.password} 
                             onChange={handleChange} 
                             required={!employee}
-                            placeholder={employee ? "••••••••" : "Enter password"}
+                            placeholder={employee ? "••••••••" : "Enter initial password"}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                         />
+                        {!employee && <p className="text-xs text-gray-500 mt-1">Please share this password with the employee. They cannot create an account themselves.</p>}
                     </div>
                      <div>
                         <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>

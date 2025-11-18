@@ -1,3 +1,4 @@
+
 import type { Role } from './App';
 
 export enum DocumentStatus {
@@ -62,6 +63,7 @@ export interface Document {
   status: DocumentStatus;
   collectionMethod: CollectionMethod;
   verificationStatus?: DiplomaVerificationStatus;
+  url?: string;
 }
 
 export interface Payment {

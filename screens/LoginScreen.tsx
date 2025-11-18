@@ -91,8 +91,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, employees }) => {
             </button>
           </div>
            <div className="text-center text-xs text-gray-500">
-            <p>System Administrator: <strong>admin@recruitsys.com</strong> / <strong>admin</strong></p>
-            <p className="mt-1">Contact admin to reset password or create new staff accounts.</p>
+            <p>Restricted Access. Authorized Personnel Only.</p>
+            <p className="mt-1">Contact the administrator to create a new staff account.</p>
           </div>
         </form>
       </div>
